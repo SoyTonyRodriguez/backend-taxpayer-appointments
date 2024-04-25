@@ -12,6 +12,30 @@ def load_clients(filepath):
         return []
 
 
+def get_distance(client_location, office_location):
+    return haversine(
+        (client_location["latitude"], client_location["longitude"]),
+        (office_location["latitude"], office_location["longitude"]),
+    )
+
+
+def normalize_data(clients, keys):
+    stats = {}
+    for key in keys:
+        all_values = [client[key] for client in clients]
+
+        min_val = min(all_values)
+        max_val = max(all_values)
+        range_val = max_val - min_val
+
+        stats[key] = {"min": min_val, "max": max_val, "range": range_val}
+
+        for client in clients:
+            client[f"norm_{key}"] = (client[key] - min_val) / range_val
+
+    return clients, stats
+
+
 # Main function
 if __name__ == "__main__":
     # The office location, can be changed
@@ -21,11 +45,18 @@ if __name__ == "__main__":
     clients = load_clients(filepath)
 
     for client in clients:
-        client_location = client["location"]
-        distance = haversine(
-            (client_location["latitude"], client_location["longitude"]),
-            (office_location["latitude"], office_location["longitude"]),
-        )
-        print(distance)
+        client["distance"] = get_distance(client["location"], office_location)
 
-    # print(distance)
+    normalize_data(
+        clients,
+        [
+            "age",
+            "accepted_offers",
+            "canceled_offers",
+            "average_reply_time",
+            "distance",
+        ],
+    )
+
+    for client in clients:
+        print(client)
