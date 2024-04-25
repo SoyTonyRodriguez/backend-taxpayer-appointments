@@ -36,6 +36,16 @@ def normalize_data(clients, keys):
     return clients, stats
 
 
+def top_clients_File(top_clients):
+    try:
+        filepath = "./taxpayers_Best.json"
+        with open(filepath, "w") as file:
+            json.dump(top_clients, file, indent=4)
+        print(f"\n\n JSON file was successfully created and saved as {filepath}.")
+    except IOError:
+        print("An error occurred while writing the file.")
+
+
 # Main function
 if __name__ == "__main__":
     # The office location, can be changed
@@ -70,4 +80,7 @@ if __name__ == "__main__":
 
         client["score"] = int(score * 10)
 
-    print(sorted(clients, key=lambda x: x["score"], reverse=True)[:10])
+    top_clients = sorted(clients, key=lambda x: x["score"], reverse=True)[:10]
+    print(top_clients)
+
+    top_clients_File(top_clients)
