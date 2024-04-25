@@ -10,12 +10,6 @@
         "accepted_offers": 78,
         "canceled_offers": 12,
         "average_reply_time": 781,
-        "distance": 454.25664074611944,
-        "norm_age": 0.9305555555555556,
-        "norm_accepted_offers": 0.78,
-        "norm_canceled_offers": 0.12,
-        "norm_average_reply_time": 0.2162538268856109,
-        "norm_distance": 0.438847778182498,
         "score": 8
     },
     {
@@ -29,12 +23,6 @@
         "accepted_offers": 91,
         "canceled_offers": 11,
         "average_reply_time": 1386,
-        "distance": 107.95543444014987,
-        "norm_age": 0.6527777777777778,
-        "norm_accepted_offers": 0.91,
-        "norm_canceled_offers": 0.11,
-        "norm_average_reply_time": 0.38463679376565546,
-        "norm_distance": 0.09293871264781914,
         "score": 8
     },
     {
@@ -48,12 +36,6 @@
         "accepted_offers": 95,
         "canceled_offers": 0,
         "average_reply_time": 1202,
-        "distance": 14.911361563034195,
-        "norm_age": 0.20833333333333334,
-        "norm_accepted_offers": 0.95,
-        "norm_canceled_offers": 0.0,
-        "norm_average_reply_time": 0.33342610631784025,
-        "norm_distance": 0.0,
         "score": 8
     },
     {
@@ -67,12 +49,6 @@
         "accepted_offers": 97,
         "canceled_offers": 5,
         "average_reply_time": 2314,
-        "distance": 282.21505703487946,
-        "norm_age": 0.8194444444444444,
-        "norm_accepted_offers": 0.97,
-        "norm_canceled_offers": 0.05,
-        "norm_average_reply_time": 0.6429167826328973,
-        "norm_distance": 0.26700100903760116,
         "score": 8
     },
     {
@@ -86,12 +62,6 @@
         "accepted_offers": 87,
         "canceled_offers": 0,
         "average_reply_time": 990,
-        "distance": 118.96714373796665,
-        "norm_age": 0.16666666666666666,
-        "norm_accepted_offers": 0.87,
-        "norm_canceled_offers": 0.0,
-        "norm_average_reply_time": 0.2744224881714445,
-        "norm_distance": 0.10393795262673479,
         "score": 8
     },
     {
@@ -105,12 +75,6 @@
         "accepted_offers": 97,
         "canceled_offers": 18,
         "average_reply_time": 128,
-        "distance": 118.96714373796665,
-        "norm_age": 0.2361111111111111,
-        "norm_accepted_offers": 0.97,
-        "norm_canceled_offers": 0.18,
-        "norm_average_reply_time": 0.03451155023657111,
-        "norm_distance": 0.10393795262673479,
         "score": 8
     },
     {
@@ -124,12 +88,6 @@
         "accepted_offers": 98,
         "canceled_offers": 22,
         "average_reply_time": 59,
-        "distance": 118.96714373796665,
-        "norm_age": 0.041666666666666664,
-        "norm_accepted_offers": 0.98,
-        "norm_canceled_offers": 0.22,
-        "norm_average_reply_time": 0.015307542443640411,
-        "norm_distance": 0.10393795262673479,
         "score": 8
     },
     {
@@ -143,12 +101,6 @@
         "accepted_offers": 82,
         "canceled_offers": 12,
         "average_reply_time": 414,
-        "distance": 282.21505703487946,
-        "norm_age": 0.6388888888888888,
-        "norm_accepted_offers": 0.82,
-        "norm_canceled_offers": 0.12,
-        "norm_average_reply_time": 0.11411077094350125,
-        "norm_distance": 0.26700100903760116,
         "score": 8
     },
     {
@@ -162,12 +114,6 @@
         "accepted_offers": 94,
         "canceled_offers": 0,
         "average_reply_time": 810,
-        "distance": 454.25664074611944,
-        "norm_age": 0.5972222222222222,
-        "norm_accepted_offers": 0.94,
-        "norm_canceled_offers": 0.0,
-        "norm_average_reply_time": 0.22432507653771222,
-        "norm_distance": 0.438847778182498,
         "score": 8
     },
     {
@@ -181,12 +127,6 @@
         "accepted_offers": 100,
         "canceled_offers": 4,
         "average_reply_time": 410,
-        "distance": 118.96714373796665,
-        "norm_age": 0.16666666666666666,
-        "norm_accepted_offers": 1.0,
-        "norm_canceled_offers": 0.04,
-        "norm_average_reply_time": 0.11299749512941831,
-        "norm_distance": 0.10393795262673479,
         "score": 8
     }
 ]

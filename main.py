@@ -57,16 +57,13 @@ if __name__ == "__main__":
     for client in clients:
         client["distance"] = get_distance(client["location"], office_location)
 
-    normalize_data(
-        clients,
-        [
-            "age",
+    keys = ["age",
             "accepted_offers",
             "canceled_offers",
             "average_reply_time",
-            "distance",
-        ],
-    )
+            "distance"]
+
+    normalize_data( clients, keys)
 
     # Calculated score for each client
     for client in clients:
@@ -79,6 +76,11 @@ if __name__ == "__main__":
         )
 
         client["score"] = int(score * 10)
+
+        # Remove normalization keys from setlist
+        client.pop("distance", None)
+        for key in keys:
+            client.pop(f"norm_{key}", None)
 
     top_clients = sorted(clients, key=lambda x: x["score"], reverse=True)[:10]
     print(top_clients)
