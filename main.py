@@ -58,5 +58,17 @@ if __name__ == "__main__":
         ],
     )
 
+    # Calculated score of each client
+    for client in clients:
+        score = (
+            client.get("norm_age", 0) * 0.10
+            + (client.get("norm_distance", 0)) * 0.10
+            + client.get("norm_accepted_offers", 0) * 0.30
+            + (client.get("norm_canceled_offers", 0)) * 0.30
+            + (client.get("norm_average_reply_time", 0)) * 0.20
+        )
+
+        client["score"] = score
+
     for client in clients:
         print(client)
