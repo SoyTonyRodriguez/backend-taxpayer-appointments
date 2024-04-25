@@ -69,5 +69,5 @@ if __name__ == "__main__":
         )
 
         client["score"] = int(score * 10)
-    for client in clients:
-        print(client)
+
+    print(sorted(clients, key=lambda x: x["score"], reverse=True)[:10])
