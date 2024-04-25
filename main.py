@@ -126,6 +126,7 @@ if __name__ == "__main__":
     office_location = {"latitude": 19.3797208, "longitude": -99.1940332}
 
     # Load the clients from a JSON file
+    # Change the path if is necessary
     filepath = "./sample-data/taxpayers.json"
     clients = load_clients(filepath)
 

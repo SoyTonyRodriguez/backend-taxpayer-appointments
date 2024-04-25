@@ -15,7 +15,7 @@ Faker.seed(0)
 
 taxpayers = []
 
-for _ in range(1000):
+for _ in range(4000):
     geolocation = fake.local_latlng(country_code="MX")
     taxpayer = {
         "id": fake.uuid4(),
