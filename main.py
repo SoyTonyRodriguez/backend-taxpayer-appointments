@@ -36,6 +36,39 @@ def normalize_data(clients, keys):
     return clients, stats
 
 
+def compute_scores(clients, office_location, keys):
+    # For each client get the distance
+    for client in clients:
+        client["distance"] = get_distance(client["location"], office_location)
+
+    # Store in clients the normalized values for each specified key
+    clients, stats = normalize_data(clients, keys)
+
+    # For each client calculates a score based on normalized values, with weights:
+    for client in clients:
+        score = (
+            client.get("norm_age", 0) * 0.10
+            # 1 minus normalized value, because a shorter distance is preferable
+            + (1 - client.get("norm_distance", 0)) * 0.10
+            + client.get("norm_accepted_offers", 0) * 0.30
+            # 1 minus normalized value, because fewer cancellations are better.
+            + (1 - client.get("norm_canceled_offers", 0)) * 0.30
+            # 1 minus normalized value, because a quicker reply is better
+            + (1 - client.get("norm_average_reply_time", 0)) * 0.20
+        )
+
+        # Add the score to client data
+        client["score"] = int(score * 10)
+
+        # Remove normalization keys from setlist
+        client.pop("distance", None)
+        for key in keys:
+            client.pop(f"norm_{key}", None)
+
+    # return the 10 best clients
+    return sorted(clients, key=lambda x: x["score"], reverse=True)[:10]
+
+
 def top_clients_File(top_clients):
     try:
         filepath = "./taxpayers_Best.json"
@@ -57,32 +90,17 @@ if __name__ == "__main__":
     for client in clients:
         client["distance"] = get_distance(client["location"], office_location)
 
-    keys = ["age",
-            "accepted_offers",
-            "canceled_offers",
-            "average_reply_time",
-            "distance"]
+    keys = [
+        "age",
+        "accepted_offers",
+        "canceled_offers",
+        "average_reply_time",
+        "distance",
+    ]
 
-    normalize_data( clients, keys)
+    normalize_data(clients, keys)
 
-    # Calculated score for each client
-    for client in clients:
-        score = (
-            client.get("norm_age", 0) * 0.10
-            + (1 - client.get("norm_distance", 0)) * 0.10
-            + client.get("norm_accepted_offers", 0) * 0.30
-            + (1 - client.get("norm_canceled_offers", 0)) * 0.30
-            + (1 - client.get("norm_average_reply_time", 0)) * 0.20
-        )
-
-        client["score"] = int(score * 10)
-
-        # Remove normalization keys from setlist
-        client.pop("distance", None)
-        for key in keys:
-            client.pop(f"norm_{key}", None)
-
-    top_clients = sorted(clients, key=lambda x: x["score"], reverse=True)[:10]
+    top_clients = compute_scores(clients, office_location, keys)
     print(top_clients)
 
     top_clients_File(top_clients)
