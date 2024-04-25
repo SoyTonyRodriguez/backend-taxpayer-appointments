@@ -40,16 +40,23 @@ def get_distance(client_location, office_location):
 def normalize_data(clients, keys):
     stats = {}
     for key in keys:
-        all_values = [client[key] for client in clients]
+        # Verify if the 'key' exists in the list
+        all_values = [client[key] for client in clients if key in client]
 
         min_val = min(all_values)
         max_val = max(all_values)
         range_val = max_val - min_val
 
+        # Get the stats to normalize data from each client
         stats[key] = {"min": min_val, "max": max_val, "range": range_val}
 
         for client in clients:
-            client[f"norm_{key}"] = (client[key] - min_val) / range_val
+            # Prevent division by 0
+            if range_val > 0:
+                # Add each normalized value to file
+                client[f"norm_{key}"] = (client[key] - min_val) / range_val
+            else:
+                client[f"norm_{key}"] = 0
 
     return clients, stats
 
