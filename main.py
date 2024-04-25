@@ -2,6 +2,24 @@ import json
 from haversine import haversine
 
 
+# Constants for weighting
+AGE_WEIGHT = 0.10
+DISTANCE_WEIGHT = 0.10
+ACCEPTED_OFFERS_WEIGHT = 0.30
+CANCELED_OFFERS_WEIGHT = 0.30
+REPLY_TIME_WEIGHT = 0.20
+
+
+# List that contains the keys used to normalize each data
+NORMALIZATION_KEYS = [
+    "age",
+    "accepted_offers",
+    "canceled_offers",
+    "average_reply_time",
+    "distance",
+]
+
+
 def load_clients(filepath):
     try:
         with open(filepath, "r") as file:
@@ -36,25 +54,25 @@ def normalize_data(clients, keys):
     return clients, stats
 
 
-def compute_scores(clients, office_location, keys):
+def compute_scores(clients, office_location):
     # For each client get the distance
     for client in clients:
         client["distance"] = get_distance(client["location"], office_location)
 
     # Store in clients the normalized values for each specified key
-    clients, stats = normalize_data(clients, keys)
+    clients, stats = normalize_data(clients, NORMALIZATION_KEYS)
 
     # For each client calculates a score based on normalized values, with weights:
     for client in clients:
         score = (
-            client.get("norm_age", 0) * 0.10
+            client.get("norm_age", 0) * AGE_WEIGHT
             # 1 minus normalized value, because a shorter distance is preferable
-            + (1 - client.get("norm_distance", 0)) * 0.10
-            + client.get("norm_accepted_offers", 0) * 0.30
+            + (1 - client.get("norm_distance", 0)) * DISTANCE_WEIGHT
+            + client.get("norm_accepted_offers", 0) * ACCEPTED_OFFERS_WEIGHT
             # 1 minus normalized value, because fewer cancellations are better.
-            + (1 - client.get("norm_canceled_offers", 0)) * 0.30
+            + (1 - client.get("norm_canceled_offers", 0)) * CANCELED_OFFERS_WEIGHT
             # 1 minus normalized value, because a quicker reply is better
-            + (1 - client.get("norm_average_reply_time", 0)) * 0.20
+            + (1 - client.get("norm_average_reply_time", 0)) * REPLY_TIME_WEIGHT
         )
 
         # Add the score to client data
@@ -62,7 +80,7 @@ def compute_scores(clients, office_location, keys):
 
         # Remove normalization keys from setlist
         client.pop("distance", None)
-        for key in keys:
+        for key in NORMALIZATION_KEYS:
             client.pop(f"norm_{key}", None)
 
     # return the 10 best clients
@@ -90,17 +108,7 @@ if __name__ == "__main__":
     for client in clients:
         client["distance"] = get_distance(client["location"], office_location)
 
-    keys = [
-        "age",
-        "accepted_offers",
-        "canceled_offers",
-        "average_reply_time",
-        "distance",
-    ]
-
-    normalize_data(clients, keys)
-
-    top_clients = compute_scores(clients, office_location, keys)
+    top_clients = compute_scores(clients, office_location)
     print(top_clients)
 
     top_clients_File(top_clients)
