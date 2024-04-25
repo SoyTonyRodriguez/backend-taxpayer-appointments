@@ -1,6 +1,12 @@
-import json
-from haversine import haversine
+# Libraries
 
+# The `json` module provides an easy way to encode and decode data in JSON format.
+# Used to convert between Python dictionaries and the JSON string format.
+import json
+
+# The `haversine` library is used to calculate the great-circle distance between two points
+# on the Earth's surface given their latitude and longitude
+from haversine import haversine
 
 # Constants for weighting
 AGE_WEIGHT = 0.10
@@ -20,6 +26,7 @@ NORMALIZATION_KEYS = [
 ]
 
 
+# Function to load clients from a JSON file
 def load_clients(filepath):
     try:
         with open(filepath, "r") as file:
@@ -30,6 +37,7 @@ def load_clients(filepath):
         return []
 
 
+# Function to calculate the distance between two geographic points given latitude and longitude
 def get_distance(client_location, office_location):
     return haversine(
         (client_location["latitude"], client_location["longitude"]),
@@ -37,12 +45,14 @@ def get_distance(client_location, office_location):
     )
 
 
+# Function to normalize data within client records
 def normalize_data(clients, keys):
     stats = {}
     for key in keys:
         # Verify if the 'key' exists in the list
         all_values = [client[key] for client in clients if key in client]
 
+        # Get min and max values
         min_val = min(all_values)
         max_val = max(all_values)
         range_val = max_val - min_val
@@ -57,10 +67,10 @@ def normalize_data(clients, keys):
                 client[f"norm_{key}"] = (client[key] - min_val) / range_val
             else:
                 client[f"norm_{key}"] = 0
-
     return clients, stats
 
 
+# Function to compute scores from each client based on normalized data
 def compute_scores(clients, office_location):
     # For each client get the distance
     for client in clients:
@@ -94,11 +104,17 @@ def compute_scores(clients, office_location):
     return sorted(clients, key=lambda x: x["score"], reverse=True)[:10]
 
 
+# Function to create a file that contains the 10 best clients
 def top_clients_File(top_clients):
     try:
         filepath = "./taxpayers_Best.json"
+
+        # Opens the file for writing. If the file doesn't exist, it will be created.
         with open(filepath, "w") as file:
+            # serializes the data dictionary into JSON format and writes it into the file.
+            # The indent=4 argument makes the output formatted in a more readable way (pretty-print).
             json.dump(top_clients, file, indent=4)
+
         print(f"\n\n JSON file was successfully created and saved as {filepath}.")
     except IOError:
         print("An error occurred while writing the file.")
@@ -109,13 +125,13 @@ if __name__ == "__main__":
     # The office location, can be changed
     office_location = {"latitude": 19.3797208, "longitude": -99.1940332}
 
+    # Load the clients from a JSON file
     filepath = "./sample-data/taxpayers.json"
     clients = load_clients(filepath)
 
-    for client in clients:
-        client["distance"] = get_distance(client["location"], office_location)
-
+    # Get the best clients
     top_clients = compute_scores(clients, office_location)
     print(top_clients)
 
+    # Creating a file where the best clients will be stored
     top_clients_File(top_clients)
